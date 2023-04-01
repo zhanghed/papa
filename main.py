@@ -1,36 +1,34 @@
-import requests
-import json
-import time
-import os
-import ctypes
+import requests, re
 
-url = 'https://cn.bing.com'
+url = "https://movie.douban.com/j/chart/top_list"
 headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 6.1111111111; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+                  "Chrome/111.0.0.0 Safari/537.36",
 }
-params = {
-    'format': 'js',
-    'idx': '0',
-    'n': '1111111111',
-    'nc': int(round((time.time()) * 1000)),
-    'pid': 'hp',
+data = {
+    "type": "13",
+    "interval_id": "100:90",
+    "action": "",
+    "start": "0",
+    "limit": "20"
 }
+req = requests.get(
+    url=url,
+    headers=headers,
+    params=data
+)
+# req = requests.get(
+#     url=url,
+#     headers=headers,
+#     data=data
+# )
 
-if __name__ == '__main__':
-    try:
-        # 第一次
-        req = requests.get(url=url + '/HPImageArchive.aspx', headers=headers, params=params)
-        temp = json.loads(req.text)  # 将json格式字符串转化为对 象
-        temp = temp['images'][0]
-        name = temp['fullstartdate']  # 图片名称
-        url_new = temp['url']  # 图片url
-        # 第二次
-        req = requests.get(url=url + url_new, headers=headers)
-        with open(name + '.jpg', 'wb') as f:
-            f.write(req.content)
-        req.close()
-        ctypes.windll.user32.SystemParametersInfoW(20, 0, os.path.abspath(name + '.jpg'), 0)
-        time.sleep(1)
-        os.remove(name + '.jpg')
-    except Exception as e:
-        print(e)
+req.encoding = "utf-8"
+print(req)
+
+# print(req.text)
+# print(req.json())
+
+rr = re.compile(r'"title":"(?P<title>.*?)","url":"(?P<url>.*?)","release_date":')
+for i in rr.finditer(req.text):
+    print(i.group("title"), i.group("url"))
