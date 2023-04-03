@@ -1,3 +1,4 @@
+# 获取豆瓣电影top250列表
 import requests, re
 
 url = "https://movie.douban.com/top250"
@@ -17,7 +18,7 @@ if __name__ == '__main__':
         req.encoding = "utf-8"
 
         rr = re.compile(
-            r'<a href="(?P<url>.*?)" class="">\n                            <span class="title">(?P<title>.*?)</span>')
+            r'<div class="hd">.*?<a href="(?P<url>.*?)" class="">.*?<span class="title">(?P<title>.*?)</span>', re.S)
 
         for i in rr.finditer(req.text):
             arr.append((i.group("title"), i.group("url")))
