@@ -1,4 +1,3 @@
-# 获取必应今日壁纸
 import requests
 import time
 
@@ -13,11 +12,15 @@ data = {
     'nc': int(round((time.time()) * 1000)),
     'pid': 'hp',
 }
+
 req = requests.get(url=url1, headers=headers, params=data)
 req = req.json()
+
 for i in req["images"]:
     name = i['title']
     url2 = "https://cn.bing.com" + i['url']
     req = requests.get(url=url2, headers=headers)
     with open(name + '.jpg', 'wb') as f:
         f.write(req.content)
+
+req.close()

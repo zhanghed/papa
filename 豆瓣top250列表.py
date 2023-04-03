@@ -1,4 +1,3 @@
-# 获取豆瓣电影top250列表
 import requests, re
 
 url = "https://movie.douban.com/top250"
@@ -23,4 +22,12 @@ if __name__ == '__main__':
         for i in rr.finditer(req.text):
             arr.append((i.group("title"), i.group("url")))
 
-    print(arr, len(arr))
+        req.close()
+
+    with open('top250.csv', 'w',encoding="utf-8") as f:
+        for item in arr:
+            for i in item:
+                f.write(str(i))
+                f.write(",")
+            f.write("\n")
+
