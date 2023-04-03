@@ -1,32 +1,25 @@
 import requests, re
 
-url = "https://movie.douban.com/j/chart/top_list"
+url = "https://movie.douban.com/top250"
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
                   "Chrome/111.0.0.0 Safari/537.36",
 }
 data = {
-    "type": "13",
-    "interval_id": "100:90",
-    "action": "",
-    "start": "0",
-    "limit": "20"
+    "start": "",
 }
 
 if __name__ == '__main__':
-    try:
-        req = requests.get(url=url,headers=headers,params=data)
-        # req = requests.get(url=url,headers=headers,data=data)
-
+    arr = []
+    for item in range(10):
+        data["start"] = str(item)
+        req = requests.get(url=url, headers=headers, params=data)
         req.encoding = "utf-8"
-        print(req)
 
-        # print(req.text)
-        # print(req.json())
+        rr = re.compile(
+            r'<a href="(?P<url>.*?)" class="">\n                            <span class="title">(?P<title>.*?)</span>')
 
-        rr = re.compile(r'"title":"(?P<title>.*?)","url":"(?P<url>.*?)","release_date":')
         for i in rr.finditer(req.text):
-            print(i.group("title"), i.group("url"))
+            arr.append((i.group("title"), i.group("url")))
 
-    except Exception as e:
-        print(e)
+    print(arr, len(arr))
