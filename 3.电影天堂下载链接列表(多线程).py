@@ -17,29 +17,30 @@ class ThrOne(threading.Thread):
         for item in rr.finditer(req):
             rr = re.compile('<a href="(?P<url>.*?)" class="ulink" title="(?P<title>.*?)">', re.S)
             for i in rr.finditer(item.group("url_list")):
-                thr = ThrTwo("Thr_two", "https://www.dy2018.com" + i.group("url"), self.headers)
+                thr = ThrTwo("Thr_two", "https://www.dy2018.com" + i.group("url"), self.headers,i.group("title"))
                 thr.start()
-                Arr[i.group("title")] = thr.req
 
 
 # 详情数据线程
 class ThrTwo(threading.Thread):
-    def __init__(self, name, url, headers):
+    def __init__(self, name, url, headers, title):
         threading.Thread.__init__(self, name=name)
         self.url = url
         self.headers = headers
-        self.req = []
+        self.title = title
 
     def run(self):
         req = requests.get(url=self.url, headers=self.headers)
         req.close()
         req.encoding = "gb2312"
         req = req.text
+        arr = []
         rr = re.compile('<div id="downlist"(?P<url_list>.*?)/div>', re.S)
         for i in rr.finditer(req):
             rr = re.compile('<a href="(?P<url>.*?)">', re.S)
             for ii in rr.finditer(i.group("url_list")):
-                self.req.append(ii.group("url").replace("\r", ""))
+                arr.append(ii.group("url").replace("\r", ""))
+        Arr[self.title] = arr
 
 
 # 主对象
@@ -97,5 +98,6 @@ if __name__ == '__main__':
     while True:
         print("线程：", len(threading.enumerate()), "      ", "数据：", len(Arr))
         if len(threading.enumerate()) == 1:
-            main.with_to()
+            print(len(Arr))
+            # main.with_to()
             break
