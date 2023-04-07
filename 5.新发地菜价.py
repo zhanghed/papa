@@ -47,7 +47,7 @@ class Main:
             thr.join()
             while True:
                 print("线程：", len(threading.enumerate()), "   ", "数据：", len(self.arr))
-                if len(threading.enumerate()) <= 50:
+                if len(threading.enumerate()) <= 10:
                     break
         while True:
             if len(threading.enumerate()) == 1:
