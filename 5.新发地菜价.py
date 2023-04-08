@@ -1,25 +1,44 @@
 import requests
 import threading
 import math
+import queue
+import datetime
+import time
 
 
-class Thr(threading.Thread):
-    def __init__(self, name, url, headers, data, arr):
+class ThrPro(threading.Thread):
+    def __init__(self, name, url, headers, data, que):
         threading.Thread.__init__(self, name=name)
         self.url = url
         self.headers = headers
         self.data = data
-        self.arr = arr
-        self.count = None
+        self.arr = []
+        self.que = que
 
     def run(self):
         req = requests.post(url=self.url, headers=self.headers, data=self.data)
         req.close()
         req = req.json()
-        if self.data["current"] == "1":
-            self.count = math.ceil(int(req["count"]) / int(self.data["limit"]))
         for item in req["list"]:
-            self.arr[item["prodName"]] = [item["avgPrice"], item["prodCat"], item["unitInfo"]]
+            self.arr.append((item["prodName"], item["avgPrice"], item["prodCat"], item["unitInfo"]))
+        self.que.put(self.arr)
+
+
+class ThrCon(threading.Thread):
+    def __init__(self, name, que, event):
+        threading.Thread.__init__(self, name=name)
+        self.que = que
+        self.event = event
+        self.arr = []
+
+    def run(self):
+        while True:
+            if not self.que.empty():
+                item = self.que.get_nowait()
+                self.arr = self.arr + item
+                print(len(self.arr))
+            elif self.event.is_set():
+                break
 
 
 class Main:
@@ -30,36 +49,47 @@ class Main:
                           "Chrome/111.0.0.0 Safari/537.36",
         }
         self.data = {
-            "current": "1",
-            "limit": "100"
+            "current": "",
+            "limit": "20",
+            "pubDateStartTime": "",
+            "pubDateEndTime": ""
         }
-        self.arr = {}
+        self.arr = set()
+        self.que = queue.Queue()
+        self.event = threading.Event()
 
     def run(self):
-        thr = Thr("thr", self.url, self.headers, self.data, self.arr)
-        thr.start()
-        thr.join()
-        count = thr.count
-        for item in range(2, count + 1):
+        dt = datetime.datetime.today().date()
+        self.data["pubDateStartTime"] = str(dt)
+        self.data["pubDateEndTime"] = str(dt)
+        self.data["current"] = str(1)
+        self.data["limit"] = str(20)
+        req = requests.post(url=self.url, headers=self.headers, data=self.data)
+        req.close()
+        req = req.json()
+        count = math.ceil(int(req["count"]) / int(self.data["limit"]))
+        thr_con = ThrCon("thr_con", self.que, self.event)
+        thr_con.start()
+        for item in range(1, count + 1):
             self.data["current"] = str(item)
-            thr = Thr("thr", self.url, self.headers, self.data, self.arr)
-            thr.start()
-            thr.join()
+            thr_pro = ThrPro("thr_pro", self.url, self.headers, self.data, self.que)
+            thr_pro.start()
             while True:
-                print("线程：", len(threading.enumerate()), "   ", "数据：", len(self.arr))
-                if len(threading.enumerate()) <= 10:
+                time.sleep(0.1)
+                if len(threading.enumerate()) < 50:
                     break
         while True:
-            if len(threading.enumerate()) == 1:
+            ths = threading.enumerate()
+            if len(ths) == 2 and self.que.empty() and (ths[0].name == "thr_con" or ths[1].name == "thr_con"):
+                self.event.set()
+                self.arr = thr_con.arr
                 self.writ()
                 break
 
     def writ(self):
         with open('xfdcj.csv', 'w', encoding="utf-8") as f:
-            for k, v in self.arr.items():
-                f.write(str(k))
-                f.write(",")
-                for i in v:
+            for item in self.arr:
+                for i in item:
                     f.write(str(i))
                     f.write(",")
                 f.write("\n")
