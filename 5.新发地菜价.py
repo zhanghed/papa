@@ -75,7 +75,7 @@ class Main:
             thr_pro = ThrPro("thr_pro", self.url, self.headers, self.data, self.que)
             thr_pro.start()
             while True:
-                time.sleep(0.1)
+                time.sleep(1)
                 if len(threading.enumerate()) < 50:
                     break
         while True:
