@@ -5,6 +5,7 @@ import datetime
 import math
 from timeit import default_timer
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import asyncio
 
 
 class Main:
@@ -23,14 +24,11 @@ class Main:
 
     def run(self):
         self.req_one()
-        with ThreadPoolExecutor(max_workers=20) as t:
-            t.submit(self.req_c)
-            n = range(1, self.count + 1)
-            s = [t.submit(self.req_p, str(i)) for i in n]
-            for _ in as_completed(s):
-                pass
-            self.event.set()
-            self.write()
+        t = threading.Thread(target=self.req_c, args=())
+        t.start()
+        asyncio.run(self.as_aw())
+        self.event.set()
+        self.write()
 
     def req_one(self):
         req = requests.post(url=self.url, headers=self.headers, data=self.data)
@@ -38,7 +36,14 @@ class Main:
         req = req.json()
         self.count = math.ceil(int(req["count"]) / int(self.data["limit"]))
 
-    def req_p(self, c):
+    async def as_aw(self):
+        tasks = []
+        for item in range(1, self.count + 1):
+            task = asyncio.create_task(self.req_p(str(item)))
+            tasks.append(task)
+        await asyncio.wait(tasks)
+
+    async def req_p(self, c):
         self.data["current"] = c
         req = requests.post(url=self.url, headers=self.headers, data=self.data)
         req.close()
@@ -47,7 +52,7 @@ class Main:
         for item in req["list"]:
             temp.append((item["prodName"], item["avgPrice"], item["prodCat"], item["unitInfo"]))
         self.que.put(temp)
-        print(len(self.arr))
+        print(len(temp), threading.enumerate())
 
     def req_c(self):
         while True:
