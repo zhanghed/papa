@@ -4,6 +4,7 @@ import math
 import queue
 import datetime
 import time
+from timeit import default_timer
 
 
 class ThrPro(threading.Thread):
@@ -76,7 +77,7 @@ class Main:
             thr_pro.start()
             while True:
                 time.sleep(1)
-                if len(threading.enumerate()) < 50:
+                if len(threading.enumerate()) < 20:
                     break
         while True:
             ths = threading.enumerate()
@@ -96,5 +97,8 @@ class Main:
 
 
 if __name__ == '__main__':
+    a = default_timer()
     main = Main()
     main.run()
+    b = default_timer()
+    print(b - a)

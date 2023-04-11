@@ -1,7 +1,8 @@
 import requests
-import re
 import threading
+import re
 from lxml import etree
+import time
 
 
 class Thr(threading.Thread):
@@ -25,9 +26,9 @@ class Thr(threading.Thread):
         req = req.json()
         a = req["videoInfo"]["video_image"]
         b = req["videoInfo"]["videos"]["srcUrl"]
+        c = req["systemTime"]
+        url = b.replace(c + "-", re.findall("cont-.*-", a)[0])
 
-        url = re.findall("https.*/", b)[0] + re.findall("cont-.*-", a)[0] + re.findall("-(.*)", b)[
-            0]
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
                           "Chrome/111.0.0.0 Safari/537.36",
@@ -65,14 +66,15 @@ class Main:
         for item in self.arr:
             thr = Thr("thr", item)
             thr.start()
+        while True:
+            time.sleep(1)
+            ths = threading.enumerate()
+            if len(ths) == 1:
+                print("end")
+                break
 
 
 if __name__ == '__main__':
     main = Main()
     main.run()
-    while True:
-        ths = threading.enumerate()
-        print(len(ths))
-        if len(ths) == 1:
-            print("end")
-            break
+
