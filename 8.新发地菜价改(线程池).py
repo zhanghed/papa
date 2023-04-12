@@ -1,10 +1,10 @@
-import requests
-import threading
-import queue
 import datetime
 import math
+import threading
+from concurrent.futures import ThreadPoolExecutor
 from timeit import default_timer
-from concurrent.futures import ThreadPoolExecutor, as_completed
+
+import requests
 
 
 class Main:
@@ -18,58 +18,41 @@ class Main:
         dt = str(datetime.date(year=2023, month=4, day=11))
         self.data = {"current": "1", "limit": "20", "pubDateStartTime": dt, "pubDateEndTime": dt}
         self.count = 0
-        self.arr = []
-        self.que = queue.Queue()
-        self.event = threading.Event()
 
     def run(self):
-        self.req_one()
-        with ThreadPoolExecutor(max_workers=20) as t:
-            t.submit(self.req_c)
-            n = range(1, self.count + 1)
-            s = [t.submit(self.req_p, str(i)) for i in n]
-            for _ in as_completed(s):
-                pass
-            self.event.set()
-            self.write()
-
-    def req_one(self):
         req = requests.post(url=self.url, headers=self.headers, data=self.data)
         req.close()
         req = req.json()
         self.count = math.ceil(int(req["count"]) / int(self.data["limit"]))
 
-    def req_p(self, c):
+        with ThreadPoolExecutor(max_workers=10) as t:
+            n = range(1, self.count + 1)
+            for item in n:
+                t.submit(self.download, str(item))
+
+    def download(self, c):
         self.data["current"] = c
         req = requests.post(url=self.url, headers=self.headers, data=self.data)
         req.close()
         req = req.json()
-        temp = []
+        temp = [c]
         for item in req["list"]:
             temp.append((item["prodName"], item["avgPrice"], item["prodCat"], item["unitInfo"]))
-        self.que.put(temp)
-        print(len(temp), len(threading.enumerate()))
-
-    def req_c(self):
-        while True:
-            if not self.que.empty():
-                self.arr.append(self.que.get_nowait())
-            elif self.event.is_set():
-                break
-
-    def write(self):
-        with open("aaaaa" + '.csv', "w", encoding="utf-8") as f:
-            for item in self.arr:
+        with open("./temp/" + c + '.csv', "w", encoding="utf-8") as f:
+            for item in temp[1]:
                 for i in item:
-                    for ii in i:
-                        f.write(ii)
-                        f.write(",")
-                    f.write("\n")
+                    f.write(i)
+                    f.write(",")
+                f.write("\n")
+        print(len(temp), len(threading.enumerate()))
 
 
 if __name__ == '__main__':
     a = default_timer()
+
     main = Main()
     main.run()
+    print(len(threading.enumerate()))
+
     b = default_timer()
     print(b - a)
