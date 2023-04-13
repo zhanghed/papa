@@ -10,4 +10,4 @@ os.system("python -m pip install --upgrade pip" + mirror)  # 更新 pip
 
 #os.system(r"pip install --target=路径 包名" + mirror)  # 安装
 
-os.system("pip install aiohttp" + mirror)  # 安装
+os.system("pip install uvloop" + mirror)  # 安装
