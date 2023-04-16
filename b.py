@@ -1,1 +1,1 @@
-# https://www.aqistudy.cn/historydata/
+# https://www.aqistudy.cn/
