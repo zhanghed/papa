@@ -1,4 +1,3 @@
-# https://www.aqistudy.cn/
 import asyncio
 import base64
 import json
@@ -22,8 +21,7 @@ class Main:
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
         }
         data = {
-            "hJUnygfLS": "3wVPdAbKffQFgsOPw%2BtUWv6G4l0kIyXxFPcV93oZdDROzHJpu8BbxAF4TEqnAoe%2FDxHCfpSxDMLokMgX80Xrvplxv7KwCxNBVzsPzRb3qf%2FOeR%2BSrOEETcVoRRyPRz55x48tRw9AF6qPVsyNLccihgPQDUxr86YuUPguvoRdTKGJ3pTaz%2Fe5EiWydFlOiDgZrQGAkP%2FBO9B1haPUQwTRmxs%2BVkwujDaMg4v8yifxJUd%2ByH9KRZ7gvbQkLHHS3bwiPj3Z7d1fFqAI54aGUrt5M77rKeK%2B0O%2BIbAJFQ4HGNoNsf5Sn43xT%2BgcDcqby7g%2FTjuO47PJjjXJUpMV7ffEAIA%3D%3D"
-        }
+            "hXzfFHi83": "O5GbJ/LC82TgJPSScQ8B8DuP+/nuIeOQNtKYfyGukomIVyZGAx/15xrKMZ6vL1OV5Xhyq0MzqSGutRbPQOu/MeVMNxgKcTL3snl8c/Pod92wCnMSWdyud8kLglIEpg2DSDeMUaDoSl0OQtRAF5391MVOLR/eG3tU+XDfzvSxISdgIhTAo/8VLlPfsHnQ1vSkJb/FKX2VB8vFKKU3yx8RphIwhyCLRXKVMVfev+GLe1wS8m+aGc+fslv17Dz5T3DQ8eset/Ap7NCNNze0jk8ujskedfkWrPjazBGdgkXqzGAYY0ofiFZY4g0P7GfPPyrFRIDW1tijBM4="}
         req = requests.post(url=url, headers=headers, data=data, verify=False)
         print(req)
         print(req.text)
