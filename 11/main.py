@@ -85,7 +85,7 @@ if __name__ == '__main__':
     a = default_timer()
 
     main = Main()
-    # asyncio.run(main.run())
+    asyncio.run(main.run())
 
     b = default_timer()
     print(b - a)
