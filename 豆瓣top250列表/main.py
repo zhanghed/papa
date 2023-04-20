@@ -16,7 +16,7 @@ class Main:
     # 爬取数据
     def req(self):
         for item in range(10):
-            self.data["start"] = str(item)
+            self.data["start"] = str(item*25)
             req = requests.get(url=self.url, headers=self.headers, params=self.data)
             req.close()
             rr = re.compile(
