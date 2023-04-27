@@ -6,7 +6,7 @@
 import scrapy
 
 
-class GamesItem(scrapy.Item):
+class Game4399Item(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass

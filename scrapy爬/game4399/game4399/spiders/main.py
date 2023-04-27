@@ -1,8 +1,8 @@
 import scrapy
 
 
-class ASpider(scrapy.Spider):
-    name = "a"
+class MainSpider(scrapy.Spider):
+    name = "main"
     allowed_domains = ["4399.com"]
     start_urls = ["https://www.4399.com/flash/"]
 
@@ -15,3 +15,4 @@ class ASpider(scrapy.Spider):
                 "name": b,
                 "url": a
             }
+            print(data)
