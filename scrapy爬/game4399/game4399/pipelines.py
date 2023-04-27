@@ -10,4 +10,5 @@ from itemadapter import ItemAdapter
 
 class Game4399Pipeline:
     def process_item(self, item, spider):
+        print(item)
         return item

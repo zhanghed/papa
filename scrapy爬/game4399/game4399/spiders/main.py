@@ -15,4 +15,4 @@ class MainSpider(scrapy.Spider):
                 "name": b,
                 "url": a
             }
-            print(data)
+            yield data
