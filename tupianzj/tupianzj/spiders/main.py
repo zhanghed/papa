@@ -4,10 +4,10 @@ import scrapy
 class MainSpider(scrapy.Spider):
     name = "main"
     allowed_domains = ["tupianzj.com"]
-    start_urls = ["https://www.tupianzj.com/bizhi/DNqiche/"]
+    start_urls = ["https://www.tupianzj.com/bizhi/DNqiche"]
 
     def parse(self, response):
-        print(response.text)
+        print(response)
         res = response.xpath('//*[@class="list_con_box_ul"]/li')
         print(res)
         for i in res:
