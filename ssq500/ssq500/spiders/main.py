@@ -1,4 +1,5 @@
 import scrapy
+from ssq500 import items
 
 
 class MainSpider(scrapy.Spider):
@@ -10,11 +11,14 @@ class MainSpider(scrapy.Spider):
         res = response.xpath('//*[@id="tdata"]/tr')
         for i in res:
             a = i.xpath('./td[@align="center"]/text()').extract_first()
+            if a == None:
+                continue
             b = i.xpath('./td[@class="chartBall01"]/text()').extract()
             c = i.xpath('./td[@class="chartBall02"]/text()').extract_first()
-            temp = {
-                "center": a,
-                "chartball01": b,
-                "chartball02": c,
-            }
-            yield temp
+
+            item = items.Ssq500Item()
+            item["center"] = a
+            item["chartball01"] = b
+            item["chartball02"] = c
+
+            yield item

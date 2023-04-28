@@ -9,6 +9,18 @@ from itemadapter import ItemAdapter
 
 
 class Ssq500Pipeline:
+    def open_spider(self, spider):
+        self.f = open('./ssq500.csv', 'a', encoding="utf-8")
+
+    def close_spider(self, spider):
+        self.f.close()
+
     def process_item(self, item, spider):
-        print(item)
+        self.f.write(item["center"])
+        self.f.write(",")
+        for i in item["chartball01"]:
+            self.f.write(i)
+            self.f.write(",")
+        self.f.write(item["chartball02"])
+        self.f.write("\n")
         return item

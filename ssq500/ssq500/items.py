@@ -8,5 +8,6 @@ import scrapy
 
 class Ssq500Item(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    center = scrapy.Field()
+    chartball01 = scrapy.Field()
+    chartball02 = scrapy.Field()
