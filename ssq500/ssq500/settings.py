@@ -1,4 +1,4 @@
-# Scrapy settings for game_4399 project
+# Scrapy settings for ssq500 project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,14 +7,14 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "game_4399"
+BOT_NAME = "ssq500"
 
-SPIDER_MODULES = ["game_4399.spiders"]
-NEWSPIDER_MODULE = "game_4399.spiders"
+SPIDER_MODULES = ["ssq500.spiders"]
+NEWSPIDER_MODULE = "ssq500.spiders"
 LOG_LEVEL="WARNING"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "game_4399 (+http://www.yourdomain.com)"
+#USER_AGENT = "ssq500 (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -45,13 +45,13 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    "game_4399.middlewares.Game4399SpiderMiddleware": 543,
+#    "ssq500.middlewares.Ssq500SpiderMiddleware": 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    "game_4399.middlewares.Game4399DownloaderMiddleware": 543,
+#    "ssq500.middlewares.Ssq500DownloaderMiddleware": 543,
 #}
 
 # Enable or disable extensions
@@ -63,7 +63,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   "game_4399.pipelines.Game4399Pipeline": 300,
+   "ssq500.pipelines.Ssq500Pipeline": 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

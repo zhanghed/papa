@@ -8,7 +8,7 @@
 from itemadapter import ItemAdapter
 
 
-class Game4399Pipeline:
+class Ssq500Pipeline:
     def process_item(self, item, spider):
         print(item)
         return item
