@@ -1,4 +1,4 @@
-# Scrapy settings for tupianzj project
+# Scrapy settings for douban250 project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,17 +7,17 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "tupianzj"
+BOT_NAME = "douban250"
 
-SPIDER_MODULES = ["tupianzj.spiders"]
-NEWSPIDER_MODULE = "tupianzj.spiders"
+SPIDER_MODULES = ["douban250.spiders"]
+NEWSPIDER_MODULE = "douban250.spiders"
 LOG_LEVEL="WARNING"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "tupianzj (+http://www.yourdomain.com)"
+#USER_AGENT = "douban250 (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -45,13 +45,13 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    "tupianzj.middlewares.TupianzjSpiderMiddleware": 543,
+#    "douban250.middlewares.Douban250SpiderMiddleware": 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    "tupianzj.middlewares.TupianzjDownloaderMiddleware": 543,
+#    "douban250.middlewares.Douban250DownloaderMiddleware": 543,
 #}
 
 # Enable or disable extensions
@@ -63,7 +63,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   "tupianzj.pipelines.TupianzjPipeline": 300,
+   "douban250.pipelines.Douban250Pipeline": 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

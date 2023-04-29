@@ -6,7 +6,8 @@
 import scrapy
 
 
-class TupianzjItem(scrapy.Item):
+class Douban250Item(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    name = scrapy.Field()
+    url = scrapy.Field()

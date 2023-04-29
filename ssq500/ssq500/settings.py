@@ -11,13 +11,14 @@ BOT_NAME = "ssq500"
 
 SPIDER_MODULES = ["ssq500.spiders"]
 NEWSPIDER_MODULE = "ssq500.spiders"
-LOG_LEVEL="WARNING"
+# LOG_LEVEL="WARNING"
+LOG_FILE="log.log"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "ssq500 (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -64,6 +65,7 @@ ROBOTSTXT_OBEY = True
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    "ssq500.pipelines.Ssq500Pipeline": 300,
+   # "ssq500.pipelines.Ssq500Pipeline_1": 301
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

@@ -10,7 +10,7 @@ from itemadapter import ItemAdapter
 
 class Ssq500Pipeline:
     def open_spider(self, spider):
-        self.f = open('./ssq500.csv', 'a', encoding="utf-8")
+        self.f = open('./temp.csv', 'a', encoding="utf-8")
 
     def close_spider(self, spider):
         self.f.close()
@@ -24,3 +24,21 @@ class Ssq500Pipeline:
         self.f.write(item["chartball02"])
         self.f.write("\n")
         return item
+
+
+# class Ssq500Pipeline_1:
+#     def open_spider(self, spider):
+#         self.f = open('./temp_1.csv', 'a', encoding="utf-8")
+
+#     def close_spider(self, spider):
+#         self.f.close()
+
+#     def process_item(self, item, spider):
+#         self.f.write(item["center"])
+#         self.f.write(",")
+#         for i in item["chartball01"]:
+#             self.f.write(i)
+#             self.f.write(",")
+#         self.f.write(item["chartball02"])
+#         self.f.write("\n")
+#         return item
